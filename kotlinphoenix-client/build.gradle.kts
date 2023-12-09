@@ -1,6 +1,5 @@
 plugins {
     kotlin("multiplatform")
-    kotlin("native.cocoapods")
     kotlin("plugin.serialization") version "1.6.10"
     id("com.android.library")
 }
@@ -15,12 +14,14 @@ kotlin {
     iosArm64()
     iosSimulatorArm64()
 
-    cocoapods {
-        summary = description
-        homepage = "https://github.com/ajacquierbret/kotlin-phoenix/kotlinphoenix-client"
-        ios.deploymentTarget = "14.1"
-        framework {
+    listOf(
+        iosX64(),
+        iosArm64(),
+        iosSimulatorArm64()
+    ).forEach {
+        it.binaries.framework {
             baseName = "kotlinphoenix-client"
+            isStatic = true
         }
     }
 
@@ -31,14 +32,14 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation(libs.kotlinx.serialization.json)
-                implementation(libs.kotlinx.coroutines.core)
+                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
             }
         }
 
         val androidMain by getting {
             dependencies {
-                implementation(libs.okhttp)
+                implementation("com.squareup.okhttp3:okhttp:4.12.0")
             }
         }
     }

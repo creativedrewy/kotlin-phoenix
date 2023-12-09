@@ -1,6 +1,5 @@
 plugins {
     kotlin("multiplatform")
-    kotlin("native.cocoapods")
     id("com.android.library")
 }
 
@@ -10,16 +9,15 @@ description = "Adapters for using Kotlin Phoenix with third-party GraphQL client
 
 kotlin {
     androidTarget()
-    iosX64()
-    iosArm64()
-    iosSimulatorArm64()
 
-    cocoapods {
-        summary = description
-        homepage = "https://github.com/ajacquierbret/kotlin-phoenix/kotlinphoenix-adapters"
-        ios.deploymentTarget = "14.1"
-        framework {
+    listOf(
+        iosX64(),
+        iosArm64(),
+        iosSimulatorArm64()
+    ).forEach {
+        it.binaries.framework {
             baseName = "kotlinphoenix-adapters"
+            isStatic = true
         }
     }
 
