@@ -9,6 +9,14 @@ group = "io.github.ajacquierbret"
 description = "A Phoenix client written in Kotlin, multiplatform and backed by coroutines"
 
 kotlin {
+    androidTarget {
+        compilations.all {
+            kotlinOptions {
+                jvmTarget = "11"
+            }
+        }
+    }
+
     androidTarget()
     iosX64()
     iosArm64()
@@ -54,5 +62,14 @@ android {
     defaultConfig {
         minSdk = 21
         targetSdk = 34
+    }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
+    }
+
+    kotlin {
+        jvmToolchain(11)
     }
 }

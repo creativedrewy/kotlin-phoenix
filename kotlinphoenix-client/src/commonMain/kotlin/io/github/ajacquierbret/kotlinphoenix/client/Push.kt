@@ -24,6 +24,7 @@ package io.github.ajacquierbret.kotlinphoenix.client
 
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
+import kotlinx.serialization.json.Json
 
 /**
  * A Push represents an attempt to send a payload through a Channel for a specific event.
@@ -111,7 +112,7 @@ class Push(
       val mutPayload = payload.toMutableMap()
       mutPayload["status"] = status
 
-      channel.tryEmit(refEvent, mutPayload)
+      channel.tryEmit(refEvent, mutPayload.toString())
     }
   }
 

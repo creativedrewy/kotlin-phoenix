@@ -132,7 +132,7 @@ class Presence(channel: Channel, scope: CoroutineScope, opts: Options = Options.
         channel.collect { message ->
           when (message.event) {
             stateEvent -> {
-              val newState = message.rawPayload.toMutableMap() as PresenceState
+              val newState = message.payloadMap.toMutableMap() as PresenceState
 
               joinRef = channel.joinRef
               state =
@@ -147,7 +147,7 @@ class Presence(channel: Channel, scope: CoroutineScope, opts: Options = Options.
               caller.onSync()
             }
             diffEvent -> {
-              val diff = message.rawPayload.toMutableMap() as PresenceDiff
+              val diff = message.payloadMap.toMutableMap() as PresenceDiff
               if (isPendingSyncState) {
                 pendingDiffs.add(diff)
               } else {

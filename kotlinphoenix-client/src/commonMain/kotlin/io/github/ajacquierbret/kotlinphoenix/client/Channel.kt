@@ -242,7 +242,7 @@ class Channel(
     // Perform the same behavior if the channel leaves successfully or not
     val close: suspend ((Message) -> Unit) = {
       socket.logItems("Channel: leave $topic")
-      tryEmit(Event.CLOSE, mapOf("reason" to "leave"))
+      tryEmit(Event.CLOSE, "{\"reason\": \"leave\"}")
     }
 
     // Push event to send to the server
@@ -285,7 +285,7 @@ class Channel(
   @Suppress("private")
   internal fun tryEmit(
       event: Event,
-      payload: Payload = hashMapOf(),
+      payload: String = "",
       ref: String = "",
       joinRef: String? = null
   ) = tryEmit(event.value, payload, ref, joinRef)
@@ -297,7 +297,7 @@ class Channel(
    */
   internal fun tryEmit(
       event: String,
-      payload: Payload = hashMapOf(),
+      payload: String = "",
       ref: String = "",
       joinRef: String? = null
   ) = tryEmit(Message(joinRef, ref, topic, event, payload))

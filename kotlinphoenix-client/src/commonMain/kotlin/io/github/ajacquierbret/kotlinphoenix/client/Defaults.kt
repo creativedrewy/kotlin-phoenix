@@ -78,8 +78,7 @@ object Defaults {
     val resultList = result.mapIndexed { index, item ->
       when (index) {
         4 -> {
-          val jsonObject = parser.decodeFromJsonElement<JsonObject>(item)
-          jsonObject.toPrimitiveMap()
+          item.toString()
         }
         else -> parser.decodeFromJsonElement<String?>(item)
       }
@@ -88,11 +87,11 @@ object Defaults {
     // vsn=2.0.0 message structure
     // [join_ref, ref, topic, event, payload]
     Message(
-      joinRef = resultList[0] as? String?,
-      ref = resultList[1] as? String ?: "",
-      topic = resultList[2] as? String ?: "",
-      event = resultList[3] as? String ?: "",
-      rawPayload = resultList[4] as? Payload ?: emptyMap()
+      joinRef = resultList[0] ?: "",
+      ref = resultList[1] ?: "",
+      topic = resultList[2] ?: "",
+      event = resultList[3] ?: "",
+      rawPayload = resultList[4] ?: ""
     )
   }
 

@@ -22,6 +22,10 @@
 
 package io.github.ajacquierbret.kotlinphoenix.client
 
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.decodeFromJsonElement
+
 data class Message(
   /** The ref sent during a join event. Empty if not present. */
   val joinRef: String? = null,
@@ -36,18 +40,30 @@ data class Message(
   val event: String = "",
 
   /** The raw payload of the message. It is recommended that you use `payload` instead. */
-  internal val rawPayload: Payload = HashMap()
+  internal val rawPayload: String = ""
 ) {
+
+  private val payloadObj: JsonObject = Json.decodeFromString<JsonObject>(rawPayload)
 
   /** The payload of the message */
   @Suppress("UNCHECKED_CAST")
-  val payload: Payload
-    get() = rawPayload["response"] as? Payload ?: rawPayload
+  val payload: String
+    get() = rawPayload
+
+  val payloadMap: Payload
+    get() {
+        return payloadObj.toPrimitiveMap()
+    }
 
   /**
    * Convenience var to access the message's payload's status. Equivalent
    * to checking message.payload["status"] yourself
    */
-  val status: String?
-    get() = rawPayload["status"] as? String
+  val status: String
+    get() {
+        val payloadObj = Json.decodeFromString<JsonObject>(rawPayload)
+        val result = payloadObj["status"].toString()
+
+        return result
+    }
 }
