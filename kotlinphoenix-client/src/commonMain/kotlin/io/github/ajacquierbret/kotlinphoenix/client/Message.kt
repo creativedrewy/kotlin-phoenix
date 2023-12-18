@@ -62,7 +62,7 @@ data class Message(
   val status: String
     get() {
         val payloadObj = Json.decodeFromString<JsonObject>(rawPayload)
-        val result = payloadObj["status"].toString()
+        val result = payloadObj["status"].toString().replace("\"", "")
 
         return result
     }

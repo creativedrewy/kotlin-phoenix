@@ -112,7 +112,7 @@ class Push(
       val mutPayload = payload.toMutableMap()
       mutPayload["status"] = status
 
-      channel.tryEmit(refEvent, mutPayload.toString())
+      channel.tryEmit(refEvent, "{\"status\": \"$status\"}")
     }
   }
 
